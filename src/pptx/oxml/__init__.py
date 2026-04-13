@@ -484,3 +484,18 @@ register_element_cls("p:txBody", CT_TextBody)
 from pptx.oxml.theme import CT_OfficeStyleSheet  # noqa: E402
 
 register_element_cls("a:theme", CT_OfficeStyleSheet)
+
+
+from pptx.oxml.mc import CT_AlternateContent, CT_Choice, CT_Fallback  # noqa: E402
+
+register_element_cls("mc:AlternateContent", CT_AlternateContent)
+register_element_cls("mc:Choice", CT_Choice)
+register_element_cls("mc:Fallback", CT_Fallback)
+
+
+from pptx.oxml.math import CT_OMath, CT_OMathRun, CT_OMathText, CT_OfficeMath  # noqa: E402
+
+register_element_cls("a14:m", CT_OfficeMath)
+register_element_cls("m:oMath", CT_OMath)
+register_element_cls("m:r", CT_OMathRun)
+register_element_cls("m:t", CT_OMathText)

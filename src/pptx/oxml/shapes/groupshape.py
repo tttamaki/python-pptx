@@ -141,11 +141,17 @@ class CT_GroupShape(BaseShapeElement):
     def iter_shape_elms(self) -> Iterator[ShapeElement]:
         """Generate each child of this `p:spTree` element that corresponds to a shape.
 
-        Items appear in XML document order.
+        Items appear in XML document order. `mc:AlternateContent` elements are
+        expanded transparently — shapes inside the first `mc:Choice` are yielded
+        as if they were direct children of this element.
         """
+        from pptx.oxml.mc import CT_AlternateContent  # avoid circular import at module level
+
         for elm in self.iterchildren():
             if elm.tag in self._shape_tags:
                 yield elm
+            elif isinstance(elm, CT_AlternateContent):
+                yield from elm.iter_shape_elms()
 
     @property
     def max_shape_id(self) -> int:

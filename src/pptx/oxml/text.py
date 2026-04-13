@@ -439,13 +439,19 @@ class CT_TextParagraph(BaseOxmlElement):
                 self.add_r(r_str)
 
     @property
-    def content_children(self) -> tuple[CT_RegularTextRun | CT_TextLineBreak | CT_TextField, ...]:
+    def content_children(
+        self,
+    ) -> tuple[CT_RegularTextRun | CT_TextLineBreak | CT_TextField | CT_OfficeMath, ...]:
         """Sequence containing text-container child elements of this `a:p` element.
 
-        These include `a:r`, `a:br`, and `a:fld`.
+        These include `a:r`, `a:br`, `a:fld`, and `a14:m` (Office math runs).
         """
+        from pptx.oxml.math import CT_OfficeMath  # avoid circular import at module level
+
         return tuple(
-            e for e in self if isinstance(e, (CT_RegularTextRun, CT_TextLineBreak, CT_TextField))
+            e
+            for e in self
+            if isinstance(e, (CT_RegularTextRun, CT_TextLineBreak, CT_TextField, CT_OfficeMath))
         )
 
     @property
